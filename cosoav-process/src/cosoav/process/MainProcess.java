@@ -24,7 +24,6 @@ import javax.mail.internet.MimeMessage;
 import cosoav.utils.AbstractProcess;
 
 public class MainProcess extends AbstractProcess {
-
 	public static void main(String[] args) {
 
 		MainProcess mp = new MainProcess();
@@ -124,20 +123,23 @@ public class MainProcess extends AbstractProcess {
 	}
 
 	private void validMailConnect() throws MessagingException {
-		int port = 587;
-		String host = System.getProperty("cosoav.mail.server");
-		String user = System.getProperty("cosoav.mail.user");
-		String pwd = System.getProperty("cosoav.mail.password");
-		Properties props = new Properties();
-		// required for gmail
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.auth", "true");
-		// or use getDefaultInstance instance if desired...
-		Session session = Session.getInstance(props, null);
-		Transport transport = session.getTransport("smtp");
-//		transport.connect(host, port, user, pwd);
-		transport.close();
+		String enable = System.getProperty("cosoav.mail.enable");
+		if (Boolean.parseBoolean(enable)) {
+//			int port = 587;
+//			String host = System.getProperty("cosoav.mail.server");
+//			String user = System.getProperty("cosoav.mail.user");
+//			String pwd = System.getProperty("cosoav.mail.password");
 
+			Properties props = new Properties();
+			// required for gmail
+			props.put("mail.smtp.starttls.enable", "true");
+			props.put("mail.smtp.auth", "true");
+			// or use getDefaultInstance instance if desired...
+			Session session = Session.getInstance(props, null);
+			Transport transport = session.getTransport("smtp");
+			// transport.connect(host, port, user, pwd);
+			transport.close();
+		}
 	}
 
 	private void validMailConnect2() {
@@ -246,5 +248,4 @@ public class MainProcess extends AbstractProcess {
 	 * @throws SQLException
 	 */
 
-	
 }

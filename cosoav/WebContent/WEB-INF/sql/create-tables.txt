@@ -36,39 +36,42 @@ create table tIn(
 	RECNF	CHAR(5),
 	OBS	VARCHAR(250),
 	TA	CHAR(5),
-	cDate DateTime
+	cDateConf DateTime,
+	cDateIti DateTime
 	) engine=innoDB;
 
 create table tOut(
-	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cID			INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cDataBrute	INT NOT NULL,
-	MAT	CHAR(6),	
-	ST	CHAR(3),
-	PTA	CHAR(3),
-	CRD1	CHAR(3),
-	CRD2	CHAR(3),
-	VUELO	CHAR(4),
-	DES	CHAR(3),
-	ITI	CHAR(5),	
-	CNF	CHAR(5),
-	ROC	CHAR(6),
-	ATR	VARCHAR(250),
-	OBS	VARCHAR(250),
-	cDate DateTime,
-	cUsed	BOOLEAN DEFAULT '0'
+	MAT			CHAR(6),	
+	ST			CHAR(3),
+	PTA			CHAR(3),
+	CRD1		CHAR(3),
+	CRD2		CHAR(3),
+	VUELO		CHAR(4),
+	DES			CHAR(3),
+	ITI			CHAR(5),	
+	CNF			CHAR(5),
+	ROC			CHAR(6),
+	ATR			VARCHAR(250),
+	OBS			VARCHAR(250),
+	cDateConf 	DateTime,
+	cDateIti 	DateTime,
+	cUsed		BOOLEAN DEFAULT '0'
 	) engine=innoDB;
 
 create table tReport(
 	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	cDataBrute	INT NOT NULL,
-	MAT	CHAR(6),
-	ST	CHAR(3),
-	VUELO	CHAR(4),
-	cLlegada	DATETIME,
-	cSalida	DATETIME,
-	cTransito	INT,
-	cAtention	INT,
-	cStatus	ENUM('NEW', 'DONE') DEFAULT 'NEW'
+	cDataBrute		INT NOT NULL,
+	MAT				CHAR(6),
+	ST				CHAR(3),
+	VUELO			CHAR(4),
+	cLlegadaConf	DATETIME NOT NULL,
+	cSalidaConf		DATETIME,
+	cLlegadaIti		TIMESTAMP NOT NULL,
+	cSalidaIti		DATETIME,
+	cTransito		INT,
+	cStatus			ENUM('NEW', 'DONE') DEFAULT 'NEW'
 ) engine=innoDB;
 
 create table tAtention(

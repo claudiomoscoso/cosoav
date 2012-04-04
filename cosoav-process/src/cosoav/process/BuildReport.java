@@ -56,8 +56,14 @@ public class BuildReport extends AbstractProcess {
 
 	private List<Report> buildReports(Connection conn, Long idPack)
 			throws SQLException {
-		String sql = "INSERT INTO tReport(MAT, cDataBrute, ST, VUELO, cLlegada) ";
-		sql += "SELECT MAT, ?, ST, VUELO, cDate FROM tIn WHERE ST IS NOT NULL AND cDataBrute = ?";
+		// , cLlegadaIti, cSalidaIti
+		String sql = "";
+		// sql = "INSERT INTO tReport(MAT, cDataBrute, ST, VUELO, cLlegada) ";
+		// sql +=
+		// "SELECT MAT, ?, ST, VUELO, cDate FROM tIn WHERE ST IS NOT NULL AND cDataBrute = ?";
+
+		sql = "INSERT INTO tReport(MAT, cDataBrute, ST, VUELO, cLlegadaConf, cLlegadaIti) ";
+		sql += "SELECT MAT, ?, ST, VUELO, cDateConf, cDateIti FROM tIn WHERE ST IS NOT NULL AND cDataBrute = ?";
 
 		List<Object> prms = new ArrayList<Object>();
 		prms.add(idPack);
@@ -67,7 +73,7 @@ public class BuildReport extends AbstractProcess {
 		this.closeSQL();
 
 		List<Report> out = new ArrayList<Report>();
-		sql = "SELECT cId, cLlegada, MAT FROM tReport WHERE cDataBrute=? ORDER BY cLlegada";
+		sql = "SELECT cId, cLlegadaConf, MAT FROM tReport WHERE cDataBrute=? ORDER BY cLlegadaConf";
 
 		ResultSet rs = this.queryResultSet(conn, sql, idPack);
 
@@ -76,7 +82,7 @@ public class BuildReport extends AbstractProcess {
 			report = new Report();
 			report.setId(rs.getLong("cId"));
 
-			Timestamp d = rs.getTimestamp("cLlegada");
+			Timestamp d = rs.getTimestamp("cLlegadaConf");
 			// System.out.println( calendar2String( date2Calendar(d) ));
 
 			report.setLlegada(date2Calendar(d));
@@ -93,17 +99,12 @@ public class BuildReport extends AbstractProcess {
 		// String mat = null;
 		for (Report report : reports) {
 			// mat = getMatricula(conn, report);
-			Calendar dateOut = findDateOut(conn, report, idPack);
+			Calendar[] dateOut = findDateOut(conn, report, idPack);
 
-			updateReport(conn, report, dateOut);
-			/**
-			 * <code>
-		
-			 </code>
-			 */
+			updateReport(conn, report, dateOut[0], dateOut[1]);
 		}
 		transitoTime(conn, idPack);
-//		attention(conn, idPack);
+		// attention(conn, idPack);
 	}
 
 	private void attention(Connection conn, Long idPack) throws SQLException {
@@ -127,60 +128,55 @@ public class BuildReport extends AbstractProcess {
 		 * llegada y salida.
 		 */
 		String sql = "UPDATE tReport SET ";
-		sql += "cTransito=TIME_TO_SEC(TIMEDIFF(cSalida, cLlegada))/60 ";
-		sql += "WHERE cDataBrute=? AND cLlegada IS NOT NULL";
+		sql += "cTransito=TIME_TO_SEC(TIMEDIFF(cSalidaConf, cLlegadaConf))/60 ";
+		sql += "WHERE cDataBrute=? AND cLlegadaConf IS NOT NULL";
 
 		this.update(conn, sql, idPack);
 		this.closeSQL();
 	}
 
-	private void updateReport(Connection conn, Report report, Calendar dateOut)
-			throws SQLException {
+	private void updateReport(Connection conn, Report report,
+			Calendar dateConfOut, Calendar dateItiOut) throws SQLException {
 		/**
 		 * actualiza campo con la fecha-hora de salida, además de otros campos
 		 * relativos a la salida
 		 */
-		String sql = "UPDATE tReport SET cSalida=? WHERE cId=?";
+		String sql = "UPDATE tReport SET cSalidaConf=?, cSalidaIti=?  WHERE cId=?";
 
 		List<Object> prms = new ArrayList<Object>();
-		prms.add(dateOut);
+		prms.add(dateConfOut);
+		prms.add(dateItiOut);
 		prms.add(report.getId());
 
-		this.update(conn, sql, prms);
+		try {
+			this.update(conn, sql, prms);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		this.closeSQL();
 	}
 
-	private Calendar findDateOut(Connection conn, Report report, Long idPack)
+	private Calendar[] findDateOut(Connection conn, Report report, Long idPack)
 			throws ParseException, SQLException {
-		// Quemar Registro
+		String sql = "SELECT cId, cDateConf, cDateIti, ITI ";
+		sql += "FROM tOut ";
+		sql += "WHERE MAT = ? AND cUsed = 0 AND cDataBrute = ? AND cDateConf > ? ORDER BY cDateConf";
 
-		// if ("CC-BAF".equals(report.getMat())) {
-		// System.out.println("MAT");
-		// }
-
-		String sql = "SELECT cId, cDate, ITI FROM tOut WHERE MAT = ? AND cUsed = 0 AND cDataBrute = ? AND cDate > ? ORDER BY cDate";
 		List<Object> prms = new ArrayList<Object>();
 		prms.add(report.getMat());
 		prms.add(idPack);
 		prms.add(report.getLlegada());
 
-//		System.out.println(report.getMat() + " "
-//				+ calendar2String(report.getLlegada()));
-
-
 		ResultSet rs = this.queryResultSet(conn, sql, prms);
 
 		Long id = null;
-		Calendar out = null;
+		Calendar[] out = new Calendar[2];
 		if (rs.next()) {
 			id = rs.getLong("cId");
 
-			// out = this.string2Calendar(
-			// rs.getDate("cDate") + " " + rs.getString("ITI"),
-			// "yyyy-MM-dd hh:mm");
-			out = this.date2Calendar(rs.getTimestamp("cDate"));
-
-			// System.out.println( this.calendar2String(out));
+			out[0] = this.date2Calendar(rs.getTimestamp("cDateConf"));
+			out[1] = this.date2Calendar(rs.getTimestamp("cDateIti"));
 
 			this.closeSQL(rs);
 

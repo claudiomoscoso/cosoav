@@ -109,25 +109,29 @@ public class BuildData extends AbstractProcess {
 	}
 
 	private void saveRow(Connection conn, Long id, Element row,
-			boolean onlyOut, Calendar date) throws SQLException {
+			boolean onlyOut, Calendar dateConf) throws SQLException {
 		List params = new ArrayList();
 		String cnf = null;
 		String iti = null;
 		String time = null;
 		String mat = null;
+		Calendar dateIti = (Calendar) dateConf.clone();
 
 		String sql = null;
 		if (!onlyOut) {
 			sql = "INSERT INTO tIn";
-			sql += "(cDataBrute, MAT, ST, CRD1, VUELO, ORI, ITI, RECNF, OBS, TA, cDate) ";
-			sql += "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+			sql += "(cDataBrute, MAT, ST, CRD1, VUELO, ORI, ITI, RECNF, OBS, TA, cDateConf, cDateIti) ";
+			sql += "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			cnf = getElementNullIfTrim(row, FieldsEnum.LL_RECNF, onlyOut);
 			iti = getElementTextTrim(row, FieldsEnum.LL_ITI, onlyOut);
 
 			time = cnf == null ? iti : cnf;
-			date.set(Calendar.HOUR_OF_DAY, this.getHour(time));
-			date.set(Calendar.MINUTE, this.getMins(time));
+			dateConf.set(Calendar.HOUR_OF_DAY, this.getHour(time));
+			dateConf.set(Calendar.MINUTE, this.getMins(time));
+			
+			dateIti.set(Calendar.HOUR_OF_DAY, this.getHour(iti));
+			dateIti.set(Calendar.MINUTE, this.getMins(iti));
 
 			mat = getElementTextTrim(row, FieldsEnum.LL_MAT, onlyOut);
 			params.add(id);
@@ -140,7 +144,8 @@ public class BuildData extends AbstractProcess {
 			params.add(cnf);
 			params.add(getElementTextTrim(row, FieldsEnum.LL_OBS, onlyOut));
 			params.add(getElementTextTrim(row, FieldsEnum.LL_TA, onlyOut));
-			params.add(date);
+			params.add(dateConf);
+			params.add(dateIti);
 
 			this.update(conn, sql, params);
 			this.closeSQL();
@@ -149,8 +154,8 @@ public class BuildData extends AbstractProcess {
 		}
 
 		sql = "INSERT INTO tOut";
-		sql += "(cDataBrute, MAT, ST, PTA, CRD1, CRD2, VUELO, DES, ITI, CNF, ROC, ATR, OBS, cDate) ";
-		sql += "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		sql += "(cDataBrute, MAT, ST, PTA, CRD1, CRD2, VUELO, DES, ITI, CNF, ROC, ATR, OBS, cDateConf, cDateIti) ";
+		sql += "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
 		mat = getElementTextTrim(row, FieldsEnum.SA_MAT, onlyOut);
 
@@ -159,8 +164,10 @@ public class BuildData extends AbstractProcess {
 
 		time = cnf == null ? iti : cnf;
 
-		date.set(Calendar.HOUR_OF_DAY, this.getHour(time));
-		date.set(Calendar.MINUTE, this.getMins(time));
+		dateConf.set(Calendar.HOUR_OF_DAY, this.getHour(time));
+		dateConf.set(Calendar.MINUTE, this.getMins(time));
+		dateIti.set(Calendar.HOUR_OF_DAY, this.getHour(iti));
+		dateIti.set(Calendar.MINUTE, this.getMins(iti));
 
 		params.add(id);
 		params.add(mat);
@@ -175,7 +182,8 @@ public class BuildData extends AbstractProcess {
 		params.add(getElementTextTrim(row, FieldsEnum.SA_ROC, onlyOut));
 		params.add(getElementTextTrim(row, FieldsEnum.SA_ATR, onlyOut));
 		params.add(getElementTextTrim(row, FieldsEnum.SA_OBS, onlyOut));
-		params.add(date);
+		params.add(dateConf);
+		params.add(dateIti);
 
 		this.update(conn, sql, params);
 		this.closeSQL();
