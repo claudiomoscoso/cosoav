@@ -1,0 +1,176 @@
+use cosoav;
+
+drop table if exists tDataBrute;
+drop table if exists tIn;
+drop table if exists tOut;
+drop table if exists tReportStatus;
+drop table if exists tReport;
+drop table if exists tTimeConfig;
+drop table if exists tPlainType;
+drop table if exists tAtention;
+
+create table tReportStatus(
+	cId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cDate Datetime NOT NULL,
+	cProcessTime long
+	) engine=innoDB;
+
+create table tDataBrute(
+	cId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cHTML Longtext NOT NULL,
+	cXML Longtext,
+	cProcessTime Datetime,
+	cStatus ENUM('NEW','PROC', 'AS_XML', 'PROC_XML', 'DONE', 'ERROR', 'ERROR_XML', 'BUILD_REPO', 'OK', 'ERROR_REPO') DEFAULT 'NEW',
+	cDate Date
+	) engine=innoDB;
+
+create table tIn(
+	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cDataBrute	INT NOT NULL,
+	MAT	CHAR(6),
+	ST	CHAR(3),
+	CRD1	CHAR(6),
+	VUELO	CHAR(5),
+	ORI	CHAR(3),
+	ITI	CHAR(5),
+	RECNF	CHAR(5),
+	OBS	VARCHAR(250),
+	TA	CHAR(5),
+	cDate DateTime
+	) engine=innoDB;
+
+create table tOut(
+	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cDataBrute	INT NOT NULL,
+	MAT	CHAR(6),	
+	ST	CHAR(3),
+	PTA	CHAR(3),
+	CRD1	CHAR(3),
+	CRD2	CHAR(3),
+	VUELO	CHAR(4),
+	DES	CHAR(3),
+	ITI	CHAR(5),	
+	CNF	CHAR(5),
+	ROC	CHAR(6),
+	ATR	VARCHAR(250),
+	OBS	VARCHAR(250),
+	cDate DateTime,
+	cUsed	BOOLEAN DEFAULT '0'
+	) engine=innoDB;
+
+create table tReport(
+	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cDataBrute	INT NOT NULL,
+	MAT	CHAR(6),
+	ST	CHAR(3),
+	VUELO	CHAR(4),
+	cLlegada	DATETIME,
+	cSalida	DATETIME,
+	cTransito	INT,
+	cAtention	INT,
+	cStatus	ENUM('NEW', 'DONE') DEFAULT 'NEW'
+) engine=innoDB;
+
+create table tAtention(
+	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cName	char(6)	
+) engine=innoDB;
+
+create table tPlainType(
+	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	MAT	CHAR(6),
+	cTypePlain char(3)	
+) engine=innoDB;
+
+create table tTimeConfig(
+	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	cTypePlain char(3),
+	cMins	INTEGER	
+) engine=innoDB;
+
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZN', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAG', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BJB', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAR', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CYI', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZQ', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BJC', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAQ', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CPJ', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CPQ', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CML', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('HC-CLB', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZU', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAT', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BJA', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BDB', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CBJ', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CWF', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-COM', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAH', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQE', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAU', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZS', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAJ', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CPE', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAF', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CVU', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAK', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAM', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CVP', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CVS', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAV', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQC', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAO', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-COF', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAN', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZT', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAI', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAS', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('LV-BFY', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CVV', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZJ', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CXI', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQP', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAL', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-BCD', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZR', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CVR', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQL', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CXL', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('LV-BGI', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CRH', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-COY', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CPM', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CPI', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('HC-CLA', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CDM', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQF', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CRG', '318');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CDP', '319');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZW', '320');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQA', '767');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CQG', '340');
+insert into tPlainType(MAT, cTypePlain) VALUES('CC-CWG', '318');
+
+insert into tTimeConfig(cTypePlain, cMins) VALUES('318', 8);
+insert into tTimeConfig(cTypePlain, cMins) VALUES('319', 8);
+insert into tTimeConfig(cTypePlain, cMins) VALUES('320', 10);
+insert into tTimeConfig(cTypePlain, cMins) VALUES('767', 25);
+insert into tTimeConfig(cTypePlain, cMins) VALUES('340', 30);
+
+insert into tAtention(cName) VALUES('Manto');
+insert into tAtention(cName) VALUES('Andes');
+
+/*
+SELECT * 
+FROM tReport AS r 
+LEFT JOIN tPlainType AS pt ON r.MAT = pt.MAT
+LEFT JOIN tTimeConfig AS t ON pt.cTypePlain = t.cTypePlain
+LEFT JOIN tAtention AS a ON a.cId = 
+    CASE
+        WHEN r.cTransito > t.cMins THEN "1"
+        ELSE "2"
+    END;
+
+*/
