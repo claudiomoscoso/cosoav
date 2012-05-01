@@ -1,0 +1,226 @@
+A:hover
+{
+    TEXT-DECORATION: none 
+}
+
+
+A
+{
+    FONT-SIZE: 10pt;
+    COLOR: #000e78;
+    FONT-FAMILY: Arial;
+    TEXT-DECORATION: none
+}
+BODY
+{
+    FONT-FAMILY: Symbol, OpenSymbol, 'MT Extra', Marlett, 'Courier New';
+    BACKGROUND-COLOR: white
+}
+SPAN.cInfo
+{
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    COLOR: brown;
+    FONT-FAMILY: Tahoma
+}
+SPAN.cMessage
+{
+    FONT-WEIGHT: 900;
+    FONT-SIZE: 20px;
+    CURSOR: default;
+    COLOR: brown;
+    FONT-FAMILY: Tahoma
+}
+.cLabel
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    FONT-FAMILY: Tahoma
+}
+.cData
+{
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    COLOR: brown;
+    FONT-FAMILY: Tahoma
+}
+
+.cError
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    FONT-FAMILY: Tahoma;
+    COLOR: red;
+}
+
+.cErrorTD
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    FONT-FAMILY: Tahoma;
+    COLOR: yellow;
+    background-color: red
+}
+
+H1.cTitle
+{
+    CURSOR: default;
+    COLOR: firebrick;
+    FONT-FAMILY: 'Arial Black';
+    TEXT-DECORATION: underline
+}
+H2.cTitle2
+{
+    CURSOR: default;
+    COLOR: firebrick;
+    FONT-FAMILY: 'Arial Black';
+    TEXT-DECORATION: underline
+}
+TD.cHeadTD
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 0px;
+    BORDER-TOP: 1px solid;
+    PADDING-LEFT: 0px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: smaller;
+    PADDING-BOTTOM: 0px;
+    MARGIN: 0px;
+    BORDER-LEFT: white 1px solid;
+    CURSOR: default;
+    COLOR: black;
+    PADDING-TOP: 0px;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #c8c8c8
+}
+TD.cDataTD
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px;
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+}
+TD.cDataTD_odd
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px;
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #F5F5F5
+}
+
+INPUT.cInputFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: lemonchiffon
+}
+INPUT.cInputNoFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: white
+}
+SELECT.cSelectFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: lemonchiffon
+}
+SELECT.cSelectNoFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: white
+}
+INPUT.cButtonFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: black;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: lemonchiffon
+}
+INPUT.cButtonNoFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: black;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: #c8c8c8
+}
+TABLE.cList
+{
+    BORDER-RIGHT: black 1px;
+    PADDING-RIGHT: 0px;
+    BORDER-TOP: black 1px;
+    BORDER-LEFT: black 1px solid;
+    WIDTH: 100%;
+    CURSOR: default;
+    BORDER-BOTTOM: black 1px
+}
+CAPTION
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: smaller;
+    CURSOR: default;
+    COLOR: moccasin;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: darkred;
+    TEXT-ALIGN: center
+}
+TEXTAREA.cTextareaFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: lemonchiffon
+}
+TEXTAREA.cTextareaNoFocus
+{
+    BORDER-RIGHT: black 1px solid;
+    BORDER-TOP: black 1px solid;
+    BORDER-LEFT: black 1px solid;
+    COLOR: brown;
+    BORDER-BOTTOM: black 1px solid;
+    FONT-FAMILY: Tahoma;
+    BACKGROUND-COLOR: white
+}
+div.content{
+	height: 250px;
+	width: 90%;
+	overflow: scroll;
+	position: relative;
+}

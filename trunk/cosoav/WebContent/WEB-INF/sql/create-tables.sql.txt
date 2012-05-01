@@ -1,13 +1,14 @@
 use cosoav;
 
-drop table if exists tDataBrute;
 drop table if exists tIn;
 drop table if exists tOut;
 drop table if exists tReportStatus;
 drop table if exists tReport;
+drop table if exists tDataBrute;
 drop table if exists tTimeConfig;
 drop table if exists tPlainType;
 drop table if exists tAtention;
+drop table if exists tMarkFly;
 
 create table tReportStatus(
 	cId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -71,8 +72,15 @@ create table tReport(
 	cLlegadaIti		TIMESTAMP NOT NULL,
 	cSalidaIti		DATETIME,
 	cTransito		INT,
-	cStatus			ENUM('NEW', 'DONE') DEFAULT 'NEW'
+	cStatus			ENUM('NEW', 'DONE', 'OLD') DEFAULT 'NEW'
 ) engine=innoDB;
+
+create table tMarkFly(
+	MAT				CHAR(6),
+	VUELO			CHAR(4),
+	PRIMARY KEY (MAT,VUELO)
+) engine=innoDB;
+/*	cID				INT NOT NULL AUTO_INCREMENT PRIMARY KEY,*/
 
 create table tAtention(
 	cID	INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -90,6 +98,19 @@ create table tTimeConfig(
 	cTypePlain char(3),
 	cMins	INTEGER	
 ) engine=innoDB;
+
+ALTER TABLE tOut
+ADD INDEX `Out_index_DataBrute` (`cDataBrute` ASC),
+ADD CONSTRAINT OutToDataBrute FOREIGN KEY (cDataBrute) REFERENCES tDataBrute(cId);
+
+ALTER TABLE tIn
+ADD INDEX `In_index_DataBrute` (`cDataBrute` ASC),
+ADD CONSTRAINT InToDataBrute FOREIGN KEY (cDataBrute) REFERENCES tDataBrute(cId);
+
+ALTER TABLE tReport
+ADD INDEX `Report_index_DataBrute` (`cDataBrute` ASC),
+ADD CONSTRAINT ReportToDataBrute FOREIGN KEY (cDataBrute) REFERENCES tDataBrute(cId);
+
 
 insert into tPlainType(MAT, cTypePlain) VALUES('CC-CZN', '318');
 insert into tPlainType(MAT, cTypePlain) VALUES('CC-BAG', '319');
