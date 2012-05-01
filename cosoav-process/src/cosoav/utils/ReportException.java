@@ -89,7 +89,7 @@ public class ReportException extends AbstractProcess {
 	}
 
 	private String exception2String(Exception e) {
-		String out = "";
+		String out = e.getMessage() + "\n";
 		if (e != null) {
 			StackTraceElement[] stackTrace = e.getStackTrace();
 			StackTraceElement stackTraceElement = null;
