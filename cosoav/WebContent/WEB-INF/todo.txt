@@ -1,0 +1,3 @@
+- Eliminación de vuelos pasados.
+- Calculo en base a los tiempos de atencion a aviones.
+- 
