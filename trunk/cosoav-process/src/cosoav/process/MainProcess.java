@@ -49,13 +49,9 @@ public class MainProcess extends AbstractProcess {
 			reportException(
 					e,
 					null,
-					array2List(
-							"cosoav.mail.server="
-									+ System.getProperty("cosoav.mail.server"),
-							"cosoav.mail.user="
-									+ System.getProperty("cosoav.mail.user"),
-							"cosoav.mail.password="
-									+ System.getProperty("cosoav.mail.password")));
+					array2List("cosoav.mail.server=" + System.getProperty("cosoav.mail.server"),
+							"cosoav.mail.user=" + System.getProperty("cosoav.mail.user"),
+							"cosoav.mail.password=" + System.getProperty("cosoav.mail.password")));
 			System.exit(-2);
 		}
 
@@ -67,17 +63,11 @@ public class MainProcess extends AbstractProcess {
 			reportException(
 					e,
 					null,
-					array2List(
-							"cosoav.database.driver="
-									+ System.getProperty("cosoav.database.driver"),
-							"cosoav.database.server="
-									+ System.getProperty("cosoav.database.server"),
-							"cosoav.database.database="
+					array2List("cosoav.database.driver=" + System.getProperty("cosoav.database.driver"),
+							"cosoav.database.server=" + System.getProperty("cosoav.database.server"), "cosoav.database.database="
 									+ System.getProperty("cosoav.database.database"),
-							"cosoav.database.username="
-									+ System.getProperty("cosoav.database.username"),
-							"cosoav.database.password="
-									+ System.getProperty("cosoav.database.password")));
+							"cosoav.database.username=" + System.getProperty("cosoav.database.username"),
+							"cosoav.database.password=" + System.getProperty("cosoav.database.password")));
 			System.exit(-3);
 		}
 
@@ -106,16 +96,14 @@ public class MainProcess extends AbstractProcess {
 
 	}
 
-	private Connection dataBaseConnection() throws ClassNotFoundException,
-			SQLException {
+	private Connection dataBaseConnection() throws ClassNotFoundException, SQLException {
 		String driverName = System.getProperty("cosoav.database.driver");
 		String serverName = System.getProperty("cosoav.database.server");
 		String database = System.getProperty("cosoav.database.database");
 		String username = System.getProperty("cosoav.database.username");
 		String password = System.getProperty("cosoav.database.password");
 
-		return getConnection(driverName, serverName, database, password,
-				username);
+		return getConnection(driverName, serverName, database, password, username);
 	}
 
 	private String getUrl() {
@@ -125,10 +113,10 @@ public class MainProcess extends AbstractProcess {
 	private void validMailConnect() throws MessagingException {
 		String enable = System.getProperty("cosoav.mail.enable");
 		if (Boolean.parseBoolean(enable)) {
-//			int port = 587;
-//			String host = System.getProperty("cosoav.mail.server");
-//			String user = System.getProperty("cosoav.mail.user");
-//			String pwd = System.getProperty("cosoav.mail.password");
+			// int port = 587;
+			// String host = System.getProperty("cosoav.mail.server");
+			// String user = System.getProperty("cosoav.mail.user");
+			// String pwd = System.getProperty("cosoav.mail.password");
 
 			Properties props = new Properties();
 			// required for gmail
@@ -146,23 +134,21 @@ public class MainProcess extends AbstractProcess {
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
-		props.put("mail.smtp.socketFactory.class",
-				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
 
-		Session session = Session.getDefaultInstance(props,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						String user = "claudio.moscoso";
-						String password = "mascota123";
+		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				String user = "claudio.moscoso";
+				String password = "mascota123";
 
-						user = System.getProperty("cosoav.mail.user");
-						password = System.getProperty("cosoav.mail.password");
+				user = System.getProperty("cosoav.mail.user");
+				password = System.getProperty("cosoav.mail.password");
 
-						return new PasswordAuthentication(user, password);
-					}
-				});
+				return new PasswordAuthentication(user, password);
+			}
+		});
 
 		Message message = new MimeMessage(session);
 		try {
@@ -194,8 +180,7 @@ public class MainProcess extends AbstractProcess {
 		this.closeSQL();
 	}
 
-	private void readProperties(String file) throws FileNotFoundException,
-			IOException {
+	private void readProperties(String file) throws FileNotFoundException, IOException {
 		Properties prps = new Properties();
 
 		prps.load(new FileInputStream(file));
