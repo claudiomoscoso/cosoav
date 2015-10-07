@@ -1,0 +1,1 @@
+Lee información desde la Base de datos y muestra una  pantalla HTML con el resultado.
